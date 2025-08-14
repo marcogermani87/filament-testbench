@@ -40,13 +40,14 @@ class RemoteApiPage extends Page implements HasTable
                 </note>';
 
         return $table
-            ->records(function (int $page, int $recordsPerPage): LengthAwarePaginator {
+            ->records(function (int $page, int $recordsPerPage, ?string $search): LengthAwarePaginator {
                 $skip = ($page - 1) * $recordsPerPage;
 
                 $response = Http::baseUrl('https://dummyjson.com')
-                    ->get('products', [
+                    ->get('products/search', [
                         'limit' => $recordsPerPage,
                         'skip' => $skip,
+                        'q' => $search,
                     ])
                     ->collect();
 
@@ -79,6 +80,9 @@ class RemoteApiPage extends Page implements HasTable
 //                    ])
 //                    ->modalSubmitAction(false)
 //                    ->modalCancelAction(false),
-            ]);
+            ])
+            ->persistSearchInSession()
+            ->searchable()
+            ;
     }
 }

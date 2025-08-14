@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Blog;
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -13,11 +13,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        $users = User::factory(10)
+            ->create()
+            ->pluck('id');
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        Blog::factory(500)
+            ->create([
+                'author_id' => function() use($users) {
+                    return $users->random();
+                }
+            ]);
     }
 }

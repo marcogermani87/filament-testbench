@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Blogs\Schemas;
 
+use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
@@ -19,9 +20,10 @@ class BlogForm
                 Textarea::make('content')
                     ->required()
                     ->columnSpanFull(),
-                TextInput::make('author_id')
-                    ->required()
-                    ->numeric(),
+                Select::make('author_id')
+                    ->relationship('user', 'name')
+                    ->searchable()
+                    ->preload(),
             ]);
     }
 }

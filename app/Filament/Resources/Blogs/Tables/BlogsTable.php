@@ -16,12 +16,9 @@ class BlogsTable
         return $table
             ->columns([
                 TextColumn::make('title')
-                    ->searchable(),
-                TextColumn::make('slug')
-                    ->searchable(),
-                TextColumn::make('author_id')
-                    ->numeric()
-                    ->sortable(),
+                    ->description(fn ($record) => $record->slug)
+                    ->searchable(['title', 'slug', 'content']),
+                TextColumn::make('user.name'),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -35,13 +32,19 @@ class BlogsTable
                 //
             ])
             ->recordActions([
-                ViewAction::make(),
-                EditAction::make(),
+                ViewAction::make()
+                    ->modalCancelAction(false),
+                EditAction::make()
+                    ->closeModalByClickingAway(false),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
                 ]),
-            ]);
+            ])
+            ->striped()
+            ->defaultSort('created_at', 'desc')
+            ->persistSearchInSession()
+            ->recordAction(null);
     }
 }

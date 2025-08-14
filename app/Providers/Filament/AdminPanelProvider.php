@@ -2,11 +2,13 @@
 
 namespace App\Providers\Filament;
 
+use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
 use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
+use Filament\Navigation\MenuItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -20,6 +22,7 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Rupadana\ApiService\ApiServicePlugin;
+use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -62,9 +65,25 @@ class AdminPanelProvider extends PanelProvider
             ->authMiddleware([
                 Authenticate::class,
             ])
+            ->userMenuItems($this->getUserMenuItems())
             ->plugins([
                 FilamentShieldPlugin::make(),
                 ApiServicePlugin::make(),
+                FilamentSpatieLaravelBackupPlugin::make(),
             ]);
+    }
+
+    private function getUserMenuItems(): array
+    {
+        $userMenuItems = [];
+
+        $userMenuItems[] = Action::make('api-docs')
+            ->label("API Docs")
+            ->icon('heroicon-o-document-text')
+            ->url(fn(): string => url('/docs/api'))
+            ->sort(0)
+            ->openUrlInNewTab();
+
+        return $userMenuItems;
     }
 }
