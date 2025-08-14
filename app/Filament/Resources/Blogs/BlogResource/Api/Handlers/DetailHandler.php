@@ -4,11 +4,13 @@ namespace App\Filament\Resources\Blogs\BlogResource\Api\Handlers;
 
 use App\Filament\Resources\SettingResource;
 use App\Filament\Resources\Blogs\BlogResource;
+use Dedoc\Scramble\Attributes\Group;
 use Rupadana\ApiService\Http\Handlers;
 use Spatie\QueryBuilder\QueryBuilder;
 use Illuminate\Http\Request;
 use App\Filament\Resources\Blogs\BlogResource\Api\Transformers\BlogTransformer;
 
+#[Group('Blog')]
 class DetailHandler extends Handlers
 {
     public static string | null $uri = '/{id}';
@@ -24,7 +26,7 @@ class DetailHandler extends Handlers
     public function handler(Request $request)
     {
         $id = $request->route('id');
-        
+
         $query = static::getEloquentQuery();
 
         $query = QueryBuilder::for(

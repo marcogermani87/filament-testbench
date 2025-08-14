@@ -1,10 +1,12 @@
 <?php
 namespace App\Filament\Resources\Blogs\BlogResource\Api\Handlers;
 
+use Dedoc\Scramble\Attributes\Group;
 use Illuminate\Http\Request;
 use Rupadana\ApiService\Http\Handlers;
 use App\Filament\Resources\Blogs\BlogResource;
 
+#[Group('Blog')]
 class DeleteHandler extends Handlers {
     public static string | null $uri = '/{id}';
     public static string | null $resource = BlogResource::class;
