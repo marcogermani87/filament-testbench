@@ -1,16 +1,16 @@
 <?php
-namespace App\Filament\Resources\Blogs\BlogResource\Api\Handlers;
+namespace App\Filament\Resources\Blogs\Api\Handlers;
 
-use Dedoc\Scramble\Attributes\Group;
-use Illuminate\Http\Request;
-use Rupadana\ApiService\Http\Handlers;
+use App\Filament\Resources\Blogs\Api\Requests\CreateBlogRequest;
 use App\Filament\Resources\Blogs\BlogResource;
-use App\Filament\Resources\Blogs\BlogResource\Api\Requests\CreateBlogRequest;
+use Dedoc\Scramble\Attributes\Group;
+use Rupadana\ApiService\Http\Handlers;
 
 #[Group('Blog')]
 class CreateHandler extends Handlers {
     public static string | null $uri = '/';
     public static string | null $resource = BlogResource::class;
+    protected static string $permission = 'Create:Blog';
 
     public static function getMethod()
     {

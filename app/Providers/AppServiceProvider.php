@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 use Filament\Support\Facades\FilamentView;
 use Filament\Tables\View\TablesRenderHook;
+use Spatie\CpuLoadHealthCheck\CpuLoadCheck;
+use Spatie\Health\Checks\Checks\CacheCheck;
+use Spatie\Health\Checks\Checks\DatabaseCheck;
+use Spatie\Health\Checks\Checks\DebugModeCheck;
+use Spatie\Health\Checks\Checks\EnvironmentCheck;
+use Spatie\Health\Checks\Checks\OptimizedAppCheck;
+use Spatie\Health\Checks\Checks\UsedDiskSpaceCheck;
+use Spatie\Health\Facades\Health;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -41,5 +49,23 @@ class AppServiceProvider extends ServiceProvider
                 RemoteApiPage::class,
             ]
         );
+
+        Health::checks([
+            CpuLoadCheck::new()
+                ->failWhenLoadIsHigherInTheLast5Minutes(2.0)
+                ->failWhenLoadIsHigherInTheLast15Minutes(1.5),
+            UsedDiskSpaceCheck::new()
+                ->warnWhenUsedSpaceIsAbovePercentage(60)
+                ->failWhenUsedSpaceIsAbovePercentage(80),
+            DatabaseCheck::new(),
+            CacheCheck::new()
+                ->if(fn() => $isProduction),
+            OptimizedAppCheck::new()
+                ->if(fn() => $isProduction),
+            DebugModeCheck::new()
+                ->if(fn() => $isProduction),
+            EnvironmentCheck::new()
+                ->if(fn() => $isProduction),
+        ]);
     }
 }

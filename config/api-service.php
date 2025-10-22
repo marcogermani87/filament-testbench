@@ -4,7 +4,7 @@ return [
     'navigation' => [
         'token' => [
             'cluster' => null,
-            'group' => 'User',
+            'group' => 'Admin',
             'sort' => -1,
             'icon' => 'heroicon-o-key',
             'should_register_navigation' => true,
@@ -16,7 +16,7 @@ return [
         ],
     ],
     'route' => [
-        'panel_prefix' => true,
+        'panel_prefix' => false,
         'use_resource_middlewares' => false,
     ],
     'tenancy' => [

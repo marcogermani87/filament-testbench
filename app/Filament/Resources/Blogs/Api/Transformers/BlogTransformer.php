@@ -1,8 +1,8 @@
 <?php
-namespace App\Filament\Resources\Blogs\BlogResource\Api\Transformers;
+namespace App\Filament\Resources\Blogs\Api\Transformers;
 
-use Illuminate\Http\Resources\Json\JsonResource;
 use App\Models\Blog;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
  * @property Blog $resource

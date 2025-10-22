@@ -1,32 +1,34 @@
 <?php
-namespace App\Filament\Resources\Blogs\BlogResource\Api\Handlers;
+namespace App\Filament\Resources\Blogs\Api\Handlers;
 
-use Dedoc\Scramble\Attributes\Group;
-use Illuminate\Http\Request;
-use Rupadana\ApiService\Http\Handlers;
+use App\Filament\Resources\Blogs\Api\Requests\UpdateBlogRequest;
 use App\Filament\Resources\Blogs\BlogResource;
+use Dedoc\Scramble\Attributes\Group;
+use Rupadana\ApiService\Http\Handlers;
 
 #[Group('Blog')]
-class DeleteHandler extends Handlers {
+class UpdateHandler extends Handlers {
     public static string | null $uri = '/{id}';
     public static string | null $resource = BlogResource::class;
+    protected static string $permission = 'Update:Blog';
 
     public static function getMethod()
     {
-        return Handlers::DELETE;
+        return Handlers::PUT;
     }
 
     public static function getModel() {
         return static::$resource::getModel();
     }
 
+
     /**
-     * Delete Blog
+     * Update Blog
      *
-     * @param Request $request
+     * @param UpdateBlogRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function handler(Request $request)
+    public function handler(UpdateBlogRequest $request)
     {
         $id = $request->route('id');
 
@@ -34,8 +36,10 @@ class DeleteHandler extends Handlers {
 
         if (!$model) return static::sendNotFoundResponse();
 
-        $model->delete();
+        $model->fill($request->all());
 
-        return static::sendSuccessResponse($model, "Successfully Delete Resource");
+        $model->save();
+
+        return static::sendSuccessResponse($model, "Successfully Update Resource");
     }
 }

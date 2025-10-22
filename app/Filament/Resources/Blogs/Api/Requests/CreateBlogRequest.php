@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Filament\Resources\Blogs\BlogResource\Api\Requests;
+namespace App\Filament\Resources\Blogs\Api\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateBlogRequest extends FormRequest
+class CreateBlogRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

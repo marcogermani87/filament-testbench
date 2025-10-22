@@ -2,13 +2,13 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Pages\Auth\Login;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Actions\Action;
 use Filament\Http\Middleware\Authenticate;
-use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
 use Filament\Http\Middleware\DispatchServingFilamentEvent;
-use Filament\Navigation\MenuItem;
 use Filament\Pages\Dashboard;
 use Filament\Panel;
 use Filament\PanelProvider;
@@ -21,8 +21,13 @@ use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Jeffgreco13\FilamentBreezy\BreezyCore;
+use Joaopaulolndev\FilamentGeneralSettings\FilamentGeneralSettingsPlugin;
+use Panservice\FilamentUsers\FilamentUsersPlugin;
+use RickDBCN\FilamentEmail\FilamentEmail;
 use Rupadana\ApiService\ApiServicePlugin;
 use ShuvroRoy\FilamentSpatieLaravelBackup\FilamentSpatieLaravelBackupPlugin;
+use ShuvroRoy\FilamentSpatieLaravelHealth\FilamentSpatieLaravelHealthPlugin;
 
 class AdminPanelProvider extends PanelProvider
 {
@@ -32,15 +37,16 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login()
+            ->login(Login::class)
             ->registration()
             ->passwordReset()
             ->emailVerification()
             ->emailChangeVerification()
-            ->profile()
+//            ->profile()
             ->colors([
                 'primary' => Color::Amber,
             ])
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\Filament\Pages')
             ->pages([
@@ -70,6 +76,21 @@ class AdminPanelProvider extends PanelProvider
                 FilamentShieldPlugin::make(),
                 ApiServicePlugin::make(),
                 FilamentSpatieLaravelBackupPlugin::make(),
+                FilamentEmail::make(),
+                FilamentGeneralSettingsPlugin::make()
+                    ->setIcon('heroicon-o-cog')
+                    ->setNavigationGroup('Admin')
+                    ->setTitle('General Settings')
+                    ->setNavigationLabel('General Settings'),
+                FilamentUsersPlugin::make(),
+                BreezyCore::make()
+                    ->myProfile(
+                        slug: 'profile',
+                        navigationGroup: 'Settings',
+                    )
+                    ->enableSanctumTokens()
+                    ->enableBrowserSessions(),
+                FilamentSpatieLaravelHealthPlugin::make(),
             ]);
     }
 

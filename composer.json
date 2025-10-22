@@ -7,14 +7,22 @@
     "license": "MIT",
     "require": {
         "php": "^8.2",
-        "bezhansalleh/filament-shield": "^4.0@beta",
-        "filament/filament": "v4.0.0",
+        "bezhansalleh/filament-shield": "^4.0",
+        "filament/filament": "^4.0",
+        "jeffgreco13/filament-breezy": "^3.0",
+        "joaopaulolndev/filament-general-settings": "^2.0",
         "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
-        "laravel/tinker": "^2.10.1",
+        "laravel/tinker": "^2.10",
+        "marcogermani87/filament-captcha": "^2.0",
+        "panservicesas/filament-users": "^2.0",
         "phiki/phiki": "^1.1",
+        "rickdbcn/filament-email": "^2.0@beta",
         "rupadana/filament-api-service": "^4.0",
-        "shuvroroy/filament-spatie-laravel-backup": "^3.0@beta"
+        "shuvroroy/filament-spatie-laravel-backup": "^3.0@beta",
+        "shuvroroy/filament-spatie-laravel-health": "^3.1",
+        "spatie/cpu-load-health-check": "^1.0",
+        "stechstudio/filament-impersonate": "^4.0"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.15",
@@ -24,7 +32,8 @@
         "laravel/sail": "^1.41",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.6",
-        "phpunit/phpunit": "^11.5.3"
+        "pestphp/pest": "^3.8",
+        "pestphp/pest-plugin-livewire": "^3.0"
     },
     "autoload": {
         "psr-4": {
